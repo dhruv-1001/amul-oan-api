@@ -9,7 +9,7 @@ load_dotenv()
 
 class Settings(BaseSettings):
     # Core Application Settings
-    app_name: str = "Amul Vistaar AI API"
+    app_name: str = "Amul AI API"
     environment: str = os.getenv("ENVIRONMENT", "production")
     debug: bool = False
     base_dir: Path = Path(__file__).resolve().parent.parent
@@ -32,6 +32,12 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "RS256"
     jwt_public_key_path: str = os.getenv("JWT_PUBLIC_KEY_PATH", "jwt_public_key.pem")
     jwt_private_key_path: Optional[str] = os.getenv("JWT_PRIVATE_KEY_PATH")
+
+    # Webview / App FE URL (served behind FCM auth; JWT token appended for FE)
+    app_fe_url: Optional[str] = os.getenv("APP_FE_URL")
+
+    # Firebase / FCM (for webview endpoint auth)
+    firebase_service_account_path: Optional[str] = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH", "service-account.json")
 
     # Worker Settings
     uvicorn_workers: int = os.cpu_count() or 1
@@ -67,6 +73,11 @@ class Settings(BaseSettings):
     sarvam_api_key: Optional[str] = None
     meity_api_key_value: Optional[str] = None
     logfire_token: Optional[str] = None
+    langfuse_public_key: Optional[str] = None
+    langfuse_secret_key: Optional[str] = None
+    langfuse_base_url: Optional[str] = None
+    langfuse_release: Optional[str] = None  # LANGFUSE_RELEASE: app version for metrics (git sha, semver)
+    langfuse_tracing_environment: Optional[str] = None  # LANGFUSE_TRACING_ENVIRONMENT: production/staging/development
     bhashini_api_key: str = ""
     inference_api_key: Optional[str] = None
     gemini_api_key: Optional[str] = None
